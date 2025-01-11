@@ -1,33 +1,70 @@
-// app.js
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-app.use(express.urlencoded({ extended: true }));
+const port = 3000;
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
+// Serve static files like CSS
+app.use(express.static('public'));
 
-// Sample to-do list with day-wise tasks
-let todolist = [
-    { title: "Task Title 1", subtasks: ["Pre-assessment", "Webinar", "Activity Report", "Project Report", "Project Test", "Viva"] },
-    { title: "Task Title 2", subtasks: ["Pre-assessment", "Webinar", "Activity Report", "Project Report", "Project Test", "Viva"] },
-    { title: "Task Title 3", subtasks: ["Pre-assessment", "Webinar", "Activity Report", "Project Report", "Project Test", "Viva"] }
+// Body parser middleware to handle form submissions
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Array to store the tasks
+let tasks = [
+    'Pre-Assessment',
+    'Webinar Activity',
+    'Activity Report',
+    'Project Report',
+    'Project Test',
+    'Viva'
 ];
 
-// Serve the To-Do list page
-app.get('/todo', (req, res) => {
-    res.render('todo', { title: 'TCS ION RIO INTERNSHIPS PROJECT TODO LIST', todolist: todolist });
+// Home route - displaying the to-do list
+app.get('/', (req, res) => {
+    res.render('index', { todolist: tasks });
 });
 
-// Add a new task
+// Add a new task route
 app.post('/todo/add/', (req, res) => {
     const newTask = req.body.newtodo;
-    if (newTask) {
-        todolist.push({ title: newTask, subtasks: ["Pre-assessment", "Webinar", "Activity Report", "Project Report", "Project Test", "Viva"] });
+    if (newTask && newTask.trim()) {
+        tasks.push(newTask);
     }
-    res.redirect('/todo');
+    res.redirect('/');
 });
 
+// Route to delete a task by index (optional)
+app.get('/todo/delete/:index', (req, res) => {
+    const index = req.params.index;
+    if (index >= 0 && index < tasks.length) {
+        tasks.splice(index, 1);
+    }
+    res.redirect('/');
+});
+
+// Route to edit a task by index (optional)
+app.get('/todo/:index', (req, res) => {
+    const index = req.params.index;
+    if (index >= 0 && index < tasks.length) {
+        res.render('edititem', { task: tasks[index], index: index });
+    } else {
+        res.redirect('/');
+    }
+});
+
+// Post route to save edited task
+app.post('/todo/edit/:index', (req, res) => {
+    const index = req.params.index;
+    if (index >= 0 && index < tasks.length) {
+        tasks[index] = req.body.editedTask;
+    }
+    res.redirect('/');
+});
+
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+
 // Start the server
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
