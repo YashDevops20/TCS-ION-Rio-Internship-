@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Task - TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
             color: #333;
             margin: 0;
             padding: 0;
@@ -17,44 +17,50 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
         }
 
+        /* Main container styling */
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
             width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             color: #007BFF;
-            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
         }
 
         form {
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
         }
 
-        input[type="text"], textarea {
+        input[type="text"] {
+            width: 80%;
             padding: 10px;
-            width: 100%;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
 
         input[type="submit"] {
+            width: 50%;
             padding: 10px;
             background-color: #007BFF;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
         }
 
         input[type="submit"]:hover {
@@ -63,37 +69,29 @@
 
         .back-link {
             margin-top: 20px;
-            text-align: center;
-        }
-
-        .back-link a {
-            text-decoration: none;
+            font-size: 1rem;
             color: #007BFF;
+            text-decoration: none;
         }
 
-        .back-link a:hover {
+        .back-link:hover {
             text-decoration: underline;
         }
+
     </style>
 </head>
-
 <body>
     <div class="container">
         <h1>Edit Task</h1>
-        <form action="/todo/edit/<%= index %>" method="POST">
-            <label for="tasktitle">Task Title</label>
-            <input type="text" name="tasktitle" id="tasktitle" value="<%= task.title %>" required />
 
-            <label for="subtasks">Subtasks (comma-separated)</label>
-            <textarea name="subtasks" id="subtasks" rows="4" required><%= task.subtasks.join(', ') %></textarea>
-
+        <!-- Edit Task Form -->
+        <form action="/todo/edit/<%= index %>" method="post">
+            <input type="text" name="editedTask" id="editedTask" value="<%= task %>" required />
             <input type="submit" value="Save Changes" />
         </form>
 
-        <div class="back-link">
-            <a href="/todo">Back to To-Do List</a>
-        </div>
+        <!-- Link to go back to the To-Do List -->
+        <a href="/" class="back-link">Back to To-Do List</a>
     </div>
 </body>
-
 </html>
