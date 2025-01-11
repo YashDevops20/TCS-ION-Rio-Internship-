@@ -1,28 +1,99 @@
 <!DOCTYPE html>
+<html lang="en">
 
-<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task - TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    <head>
-        <title>Edit <%- todo %></title>
-        <style>
-            a {
-                text-decoration: none;
-                color: black;
-            }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
 
-        </style>
-    </head>
+        h1 {
+            color: #007BFF;
+            text-align: center;
+        }
 
-    <body>
-        <h1>Edit <%- todo %>:</h1>
-        <form action="/todo/edit/<%= todoIdx %>" method="post">
-            <p>
-                <label for="editTodo">Change to:</label>
-                <input type="hidden" name="_method" value="PUT">
-                <input type="text" name="editTodo" id="editTodo" autofocus placeholder="<%- todo %>" />
-                <input type="submit" value="Save" />
-            </p>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"], textarea {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Edit Task</h1>
+        <form action="/todo/edit/<%= index %>" method="POST">
+            <label for="tasktitle">Task Title</label>
+            <input type="text" name="tasktitle" id="tasktitle" value="<%= task.title %>" required />
+
+            <label for="subtasks">Subtasks (comma-separated)</label>
+            <textarea name="subtasks" id="subtasks" rows="4" required><%= task.subtasks.join(', ') %></textarea>
+
+            <input type="submit" value="Save Changes" />
         </form>
-    </body>
+
+        <div class="back-link">
+            <a href="/todo">Back to To-Do List</a>
+        </div>
+    </div>
+</body>
 
 </html>
