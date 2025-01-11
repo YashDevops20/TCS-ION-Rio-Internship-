@@ -1,90 +1,39 @@
-// Simple To-Do List Application for TCS-ION RIO Internship
+const express = require('express');
+const app = express();
+app.use(express.json());
 
-const readline = require('readline');
+let tasks = [
+  { id: 1, name: "Day Wise Plan", completed: false },
+  { id: 2, name: "Pre Assessment", completed: false },
+  { id: 3, name: "Webinar", completed: false },
+  { id: 4, name: "Activity Report", completed: false },
+  { id: 5, name: "Project Report", completed: false },
+  { id: 6, name: "Test", completed: false },
+  { id: 7, name: "Viva", completed: false },
+];
 
-const tasks = [];
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
+// Get all tasks
+app.get('/tasks', (req, res) => {
+  res.json(tasks);
 });
 
-function showMenu() {
-  console.log(`
-  ===============================
-   TCS-ION RIO Internship To-Do List
-  ===============================
-  1. View Tasks
-  2. Add Task
-  3. Delete Task
-  4. Exit
-  ===============================
-  `);
-  rl.question('Choose an option (1-4): ', handleUserInput);
-}
-
-function viewTasks() {
-  if (tasks.length === 0) {
-    console.log('No tasks available.');
+// Update task completion status
+app.put('/tasks/:id', (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const task = tasks.find(task => task.id === taskId);
+  if (task) {
+    task.completed = req.body.completed;
+    res.json({ message: 'Task status updated successfully in TCS-ION RIO TODO List', task });
   } else {
-    console.log('\nYour Tasks:');
-    tasks.forEach((task, index) => {
-      console.log(`${index + 1}. ${task}`);
-    });
+    res.status(404).json({ message: 'Task not found' });
   }
-  showMenu();
-}
+});
 
-function addTask() {
-  rl.question('Enter the new task: ', (task) => {
-    if (task.trim()) {
-      tasks.push(task);
-      console.log(`Task added: "${task}"`);
-    } else {
-      console.log('Task cannot be empty!');
-    }
-    showMenu();
-  });
-}
+// Serve static files (HTML, CSS, JS)
+app.use(express.static('public'));
 
-function deleteTask() {
-  if (tasks.length === 0) {
-    console.log('No tasks to delete.');
-    showMenu();
-    return;
-  }
-  rl.question('Enter the task number to delete: ', (number) => {
-    const taskIndex = parseInt(number) - 1;
-    if (taskIndex >= 0 && taskIndex < tasks.length) {
-      console.log(`Task removed: "${tasks[taskIndex]}"`);
-      tasks.splice(taskIndex, 1);
-    } else {
-      console.log('Invalid task number.');
-    }
-    showMenu();
-  });
-}
-
-function handleUserInput(option) {
-  switch (option.trim()) {
-    case '1':
-      viewTasks();
-      break;
-    case '2':
-      addTask();
-      break;
-    case '3':
-      deleteTask();
-      break;
-    case '4':
-      console.log('Exiting To-Do List. Have a productive day!');
-      rl.close();
-      break;
-    default:
-      console.log('Invalid option. Please choose 1-4.');
-      showMenu();
-  }
-}
-
-// Start the application
-showMenu();
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
