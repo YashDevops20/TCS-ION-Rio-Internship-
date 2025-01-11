@@ -1,25 +1,21 @@
 {
   "name": "node-todo-cicd",
   "version": "1.0.0",
-  "description": "A To-Do List application for TCS ION RIO INTERNSHIPS PROJECT",
+  "description": "TCS ION RIO INTERNSHIPS PROJECT TODO LIST",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "ejs": "^3.1.6",
-    "body-parser": "^1.19.0",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.7"
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
-  "engines": {
-    "node": ">=12.0.0"
+    "nodemon": "^2.0.15"
   }
 }
+
