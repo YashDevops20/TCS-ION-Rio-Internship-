@@ -2,123 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>TCS-ION RIO INTERNSHIP PROJECT</title>
     <style>
-        /* General Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
+            background-color: #f8f9fa;
         }
-
-        /* Main container styling */
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #007BFF;
-            font-size: 2rem;
-            margin-bottom: 30px;
-        }
-
-        /* Task List Styling */
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 1rem;
-        }
-
-        li:last-child {
-            border-bottom: none;
-        }
-
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 15px;
-        }
-
-        label {
-            flex-grow: 1;
-            text-align: left;
-            color: #333;
-        }
-
-        /* Add Task Section */
-        form {
+        .task-list {
             margin-top: 20px;
+        }
+        .task-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        input[type="text"] {
-            width: 80%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #dee2e6;
             border-radius: 5px;
-            font-size: 1rem;
+            margin-bottom: 10px;
+            background-color: #ffffff;
         }
-
-        input[type="submit"] {
-            width: 15%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
+        .completed {
+            text-decoration: line-through;
+            color: #6c757d;
         }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</h1>
-
-        <!-- Task List -->
-        <ul>
-            <% todolist.forEach(function(task, index) { %>
-                <li>
-                    <input type="checkbox" id="task<%= index %>">
-                    <label for="task<%= index %>"><%= task %></label>
-                </li>
-            <% }); %>
-        </ul>
-
-        <!-- Add Task Form -->
-        <form action="/todo/add/" method="post">
-            <input type="text" name="newtodo" id="newtodo" placeholder="Add new task..." autofocus required />
-            <input type="submit" value="Add Task" />
+        <h1 class="mt-5">To-Do List</h1>
+        
+        <!-- Form to add a new task -->
+        <form action="/todo/add/" method="POST" class="mb-3">
+            <div class="form-group">
+                <input type="text" name="newtodo" class="form-control" placeholder="Add a new task" required>
+            </div>
+            <div class="form-group">
+                <input type="date" name="dueDate" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
         </form>
+
+        <div class="task-list">
+            <% todolist.forEach((todo, index) => { %>
+                <div class="task-item">
+                    <div>
+                        <input type="checkbox" id="task-<%= index %>" 
+                               onchange="location.href='/todo/complete/<%= index %>'" 
+                               <%= todo.completed ? 'checked' : '' %> />
+                        <label for="task-<%= index %>" class="<%= todo.completed ? 'completed' : '' %>">
+                            <%= todo.task %>
+                        </label>
+                    </div>
+                    <div>
+                        <a href="/todo/delete/<%= index %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="/todo/<%= index %>" class="btn btn-warning btn-sm">Edit</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </body>
 </html>
