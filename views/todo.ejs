@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
+    <title><%= title %></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,52 +54,60 @@
             margin: 5px 0;
             padding: 5px;
         }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</h1>
+        <h1><%= title %></h1>
         <ul>
-            <!-- Day 1 -->
+            <% todolist.forEach(function(task, index) { %>
             <li>
-                <strong>Day 1: Task Title 1</strong>
+                <strong>Day <%= index + 1 %>: <%= task.title %></strong>
                 <ul class="sub-tasks">
-                    <li>Pre-assessment</li>
-                    <li>Webinar</li>
-                    <li>Activity Report</li>
-                    <li>Project Report</li>
-                    <li>Project Test</li>
-                    <li>Viva</li>
+                    <% task.subtasks.forEach(function(subtask) { %>
+                    <li><%= subtask %></li>
+                    <% }); %>
                 </ul>
             </li>
-
-            <!-- Day 2 -->
-            <li>
-                <strong>Day 2: Task Title 2</strong>
-                <ul class="sub-tasks">
-                    <li>Pre-assessment</li>
-                    <li>Webinar</li>
-                    <li>Activity Report</li>
-                    <li>Project Report</li>
-                    <li>Project Test</li>
-                    <li>Viva</li>
-                </ul>
-            </li>
-
-            <!-- Day 3 -->
-            <li>
-                <strong>Day 3: Task Title 3</strong>
-                <ul class="sub-tasks">
-                    <li>Pre-assessment</li>
-                    <li>Webinar</li>
-                    <li>Activity Report</li>
-                    <li>Project Report</li>
-                    <li>Project Test</li>
-                    <li>Viva</li>
-                </ul>
-            </li>
+            <% }); %>
         </ul>
+
+        <form action="/todo/add/" method="post">
+            <p>
+                <label for="newtodo">Add New Task</label>
+                <input type="text" name="newtodo" id="newtodo" placeholder="Task for the day" autofocus />
+                <input type="submit" value="Add" />
+            </p>
+        </form>
     </div>
 </body>
 
