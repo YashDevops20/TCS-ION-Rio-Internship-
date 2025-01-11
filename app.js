@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+app.set('view engine', 'ejs');  // Set EJS as the templating engine
 
 let tasks = [
   { id: 1, name: "Day Wise Plan", completed: false },
@@ -12,9 +13,20 @@ let tasks = [
   { id: 7, name: "Viva", completed: false },
 ];
 
-// Get all tasks
-app.get('/tasks', (req, res) => {
-  res.json(tasks);
+// Serve the todo list page
+app.get('/', (req, res) => {
+  res.render('todo', { tasks: tasks });
+});
+
+// Route to edit a task
+app.get('/edit/:id', (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const task = tasks.find(t => t.id === taskId);
+  if (task) {
+    res.render('editItem', { task });
+  } else {
+    res.status(404).send('Task not found');
+  }
 });
 
 // Update task completion status
@@ -29,7 +41,19 @@ app.put('/tasks/:id', (req, res) => {
   }
 });
 
-// Serve static files (HTML, CSS, JS)
+// Route to save edited task
+app.post('/edit/:id', (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const task = tasks.find(t => t.id === taskId);
+  if (task) {
+    task.name = req.body.name;
+    res.redirect('/');
+  } else {
+    res.status(404).send('Task not found');
+  }
+});
+
+// Serve static files (CSS, etc.)
 app.use(express.static('public'));
 
 // Start the server
