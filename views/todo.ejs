@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
             color: #333;
             margin: 0;
             padding: 0;
@@ -17,98 +17,108 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
+        }
+
+        /* Main container styling */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             color: #007BFF;
-            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
         }
 
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-        }
-
+        /* Task List Styling */
         ul {
             list-style-type: none;
             padding: 0;
         }
 
         li {
-            padding: 10px;
-            background-color: #f9f9f9;
-            margin: 5px 0;
-            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1rem;
         }
 
-        .sub-tasks {
-            padding-left: 20px;
+        li:last-child {
+            border-bottom: none;
         }
 
-        .sub-tasks li {
-            background-color: #eaeaea;
-            margin: 5px 0;
-            padding: 5px;
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
         }
 
+        label {
+            flex-grow: 1;
+            text-align: left;
+            color: #333;
+        }
+
+        /* Add Task Section */
         form {
             margin-top: 20px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         input[type="text"] {
+            width: 80%;
             padding: 10px;
-            width: 70%;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-right: 10px;
-            font-size: 16px;
+            font-size: 1rem;
         }
 
         input[type="submit"] {
-            padding: 10px 15px;
+            width: 15%;
+            padding: 10px;
             background-color: #007BFF;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
         }
 
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1><%= title %></h1>
+        <h1>TCS ION RIO INTERNSHIPS PROJECT TODO LIST</h1>
+
+        <!-- Task List -->
         <ul>
             <% todolist.forEach(function(task, index) { %>
-            <li>
-                <strong>Day <%= index + 1 %>: <%= task.title %></strong>
-                <ul class="sub-tasks">
-                    <% task.subtasks.forEach(function(subtask) { %>
-                    <li><%= subtask %></li>
-                    <% }); %>
-                </ul>
-            </li>
+                <li>
+                    <input type="checkbox" id="task<%= index %>">
+                    <label for="task<%= index %>"><%= task %></label>
+                </li>
             <% }); %>
         </ul>
 
+        <!-- Add Task Form -->
         <form action="/todo/add/" method="post">
-            <p>
-                <label for="newtodo">Add New Task</label>
-                <input type="text" name="newtodo" id="newtodo" placeholder="Task for the day" autofocus />
-                <input type="submit" value="Add" />
-            </p>
+            <input type="text" name="newtodo" id="newtodo" placeholder="Add new task..." autofocus required />
+            <input type="submit" value="Add Task" />
         </form>
     </div>
 </body>
-
 </html>
