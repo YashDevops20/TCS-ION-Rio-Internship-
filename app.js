@@ -1,70 +1,90 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const port = 3000;
+// Simple To-Do List Application for TCS-ION RIO Internship
 
-// Serve static files like CSS
-app.use(express.static('public'));
+const readline = require('readline');
 
-// Body parser middleware to handle form submissions
-app.use(bodyParser.urlencoded({ extended: false }));
+const tasks = [];
 
-// Array to store the tasks
-let tasks = [
-    'Pre-Assessment',
-    'Webinar Activity',
-    'Activity Report',
-    'Project Report',
-    'Project Test',
-    'Viva'
-];
-
-// Home route - displaying the to-do list
-app.get('/', (req, res) => {
-    res.render('index', { todolist: tasks });
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
 });
 
-// Add a new task route
-app.post('/todo/add/', (req, res) => {
-    const newTask = req.body.newtodo;
-    if (newTask && newTask.trim()) {
-        tasks.push(newTask);
-    }
-    res.redirect('/');
-});
+function showMenu() {
+  console.log(`
+  ===============================
+   TCS-ION RIO Internship To-Do List
+  ===============================
+  1. View Tasks
+  2. Add Task
+  3. Delete Task
+  4. Exit
+  ===============================
+  `);
+  rl.question('Choose an option (1-4): ', handleUserInput);
+}
 
-// Route to delete a task by index (optional)
-app.get('/todo/delete/:index', (req, res) => {
-    const index = req.params.index;
-    if (index >= 0 && index < tasks.length) {
-        tasks.splice(index, 1);
-    }
-    res.redirect('/');
-});
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log('No tasks available.');
+  } else {
+    console.log('\nYour Tasks:');
+    tasks.forEach((task, index) => {
+      console.log(`${index + 1}. ${task}`);
+    });
+  }
+  showMenu();
+}
 
-// Route to edit a task by index (optional)
-app.get('/todo/:index', (req, res) => {
-    const index = req.params.index;
-    if (index >= 0 && index < tasks.length) {
-        res.render('edititem', { task: tasks[index], index: index });
+function addTask() {
+  rl.question('Enter the new task: ', (task) => {
+    if (task.trim()) {
+      tasks.push(task);
+      console.log(`Task added: "${task}"`);
     } else {
-        res.redirect('/');
+      console.log('Task cannot be empty!');
     }
-});
+    showMenu();
+  });
+}
 
-// Post route to save edited task
-app.post('/todo/edit/:index', (req, res) => {
-    const index = req.params.index;
-    if (index >= 0 && index < tasks.length) {
-        tasks[index] = req.body.editedTask;
+function deleteTask() {
+  if (tasks.length === 0) {
+    console.log('No tasks to delete.');
+    showMenu();
+    return;
+  }
+  rl.question('Enter the task number to delete: ', (number) => {
+    const taskIndex = parseInt(number) - 1;
+    if (taskIndex >= 0 && taskIndex < tasks.length) {
+      console.log(`Task removed: "${tasks[taskIndex]}"`);
+      tasks.splice(taskIndex, 1);
+    } else {
+      console.log('Invalid task number.');
     }
-    res.redirect('/');
-});
+    showMenu();
+  });
+}
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
+function handleUserInput(option) {
+  switch (option.trim()) {
+    case '1':
+      viewTasks();
+      break;
+    case '2':
+      addTask();
+      break;
+    case '3':
+      deleteTask();
+      break;
+    case '4':
+      console.log('Exiting To-Do List. Have a productive day!');
+      rl.close();
+      break;
+    default:
+      console.log('Invalid option. Please choose 1-4.');
+      showMenu();
+  }
+}
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// Start the application
+showMenu();
