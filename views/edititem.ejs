@@ -1,34 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Edit Task - TCS-ION RIO INTERNSHIP PROJECT</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Task</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Task</h1>
-        <form action="/todo/edit/<%= todoIdx %>?_method=PUT" method="POST">
-            <div class="form-group">
-                <label for="editTodo">Task Title</label>
-                <input type="text" name="editTodo" id="editTodo" class="form-control" value="<%= todo.task %>" required>
-            </div>
-            <div class="form-group">
-                <label for="dueDate">Due Date</label>
-                <input type="date" name="dueDate" id="dueDate" class="form-control" value="<%= todo.dueDate %>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Task</button>
-            <a href="/todo" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+  <h1>Edit Task</h1>
+  <form action="/edit/<%= task.id %>" method="POST">
+    <label for="name">Task Name:</label>
+    <input type="text" name="name" id="name" value="<%= task.name %>" required>
+    <button type="submit">Save</button>
+  </form>
+  <a href="/">Back to Todo List</a>
 </body>
 </html>
