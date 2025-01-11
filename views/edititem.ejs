@@ -2,96 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Task - TCS ION RIO INTERNSHIPS PROJECT TODO LIST</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edit Task - TCS-ION RIO INTERNSHIP PROJECT</title>
     <style>
-        /* General Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
+            background-color: #f8f9fa;
         }
-
-        /* Main container styling */
         .container {
-            width: 100%;
-            max-width: 600px;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #007BFF;
-            font-size: 2rem;
-            margin-bottom: 30px;
-        }
-
-        form {
             margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-
-        input[type="submit"] {
-            width: 50%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .back-link {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Edit Task</h1>
-
-        <!-- Edit Task Form -->
-        <form action="/todo/edit/<%= index %>" method="post">
-            <input type="text" name="editedTask" id="editedTask" value="<%= task %>" required />
-            <input type="submit" value="Save Changes" />
+        <form action="/todo/edit/<%= todoIdx %>?_method=PUT" method="POST">
+            <div class="form-group">
+                <label for="editTodo">Task Title</label>
+                <input type="text" name="editTodo" id="editTodo" class="form-control" value="<%= todo.task %>" required>
+            </div>
+            <div class="form-group">
+                <label for="dueDate">Due Date</label>
+                <input type="date" name="dueDate" id="dueDate" class="form-control" value="<%= todo.dueDate %>" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Task</button>
+            <a href="/todo" class="btn btn-secondary">Cancel</a>
         </form>
-
-        <!-- Link to go back to the To-Do List -->
-        <a href="/" class="back-link">Back to To-Do List</a>
     </div>
 </body>
 </html>
